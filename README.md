@@ -56,3 +56,21 @@ Sebelum menggunakan program ini, pastikan Anda sudah menginstal **OpenSSL**. Bia
 5. Simpan file yang akan diberi signature dan diuji keasliannya dalam folder file.
 6. Simpan signature di folder signature, seperti struktur folder pada repositori ini.
 
+## **Menjalankan Program di Mode Pengirim (Sender Mode)**
+
+Untuk menjalankan program di **mode pengirim**, gunakan perintah berikut:
+
+```bash
+python app.py --mode sender --file path/to/your/file.txt --private-key path/to/private_key.pem --signature path/to/signature.sig
+
+--mode sender: Menentukan mode untuk pengirim yang menghasilkan tanda tangan.
+--file path/to/your/file.txt: Menunjukkan file yang akan diberikan tanda tangan.
+--private-key path/to/private_key.pem: Menunjukkan path ke private key yang digunakan untuk menandatangani.
+--signature path/to/signature.sig: Menunjukkan path tempat menyimpan signature yang dihasilkan.
+
+## **Menjalankan Program di Mode penerima (receiver Mode)**
+```bash
+python app.py --mode receiver --file path/to/your/file.txt --public-key path/to/public_key.pem --signature path/to/signature.sig
+
+
+
