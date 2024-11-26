@@ -73,6 +73,6 @@ python app.py --mode sender --file path/to/your/file.txt --private-key path/to/p
 ```bash
 python app.py --mode receiver --file path/to/your/file.txt --public-key path/to/public_key.pem --signature path/to/signature.sig
 
+![Screenshot 2024-11-26 115903](https://github.com/user-attachments/assets/0771c479-e583-465e-93e9-0106779ab12f)
 
-[image](https://github.com/user-attachments/assets/ca363df1-4c1e-454e-978a-e419eba53dce)
 
