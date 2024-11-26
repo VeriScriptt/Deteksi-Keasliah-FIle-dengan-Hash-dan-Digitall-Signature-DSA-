@@ -1,4 +1,5 @@
-Sebelum menggunakan program pastikan sudah menginstal openssl, pada linux biasanya sudah ada
+Sebelum menggunakan program pastikan sudah menginstal openssl, pada linux biasanya sudah ada openssl secara default
+
 Cara menggunakan Program
 1.	Buka linux
 2.	Generate private key : openssl genrsa -out private_key.pem 2048 
@@ -13,6 +14,8 @@ python app.py --mode sender --file path/to/your/file.txt --private-key path/to/p
 8.	Menjalankan mode penerima (receiver)
 
 python app.py --mode receiver --file path/to/your/file.txt --public-key path/to/public_key.pem --signature path/to/signature.sig
+
+9. Anda dapat meniru struktur folder dari repo ini
 
 
 
