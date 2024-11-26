@@ -68,6 +68,7 @@ python app.py --mode sender --file path/to/your/file.txt --private-key path/to/p
 --private-key path/to/private_key.pem: Menunjukkan path ke private key yang digunakan untuk menandatangani.
 --signature path/to/signature.sig: Menunjukkan path tempat menyimpan signature yang dihasilkan.
 
+
 ## **Menjalankan Program di Mode penerima (receiver Mode)**
 ```bash
 python app.py --mode receiver --file path/to/your/file.txt --public-key path/to/public_key.pem --signature path/to/signature.sig
