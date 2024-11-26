@@ -48,3 +48,11 @@ Sebelum menggunakan program ini, pastikan Anda sudah menginstal **OpenSSL**. Bia
 
    ```bash
    openssl genrsa -out private_key.pem 2048
+
+3. **Generate public key** dengan perintah:
+   ```bash
+   openssl rsa -in private_key.pem -pubout -out public_key.pem
+4. **Simpan keys tersebut dalam folder keys.**
+5. Simpan file yang akan diberi signature dan diuji keasliannya dalam folder file.
+6. Simpan signature di folder signature, seperti struktur folder pada repositori ini.
+
