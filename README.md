@@ -74,4 +74,5 @@ python app.py --mode sender --file path/to/your/file.txt --private-key path/to/p
 python app.py --mode receiver --file path/to/your/file.txt --public-key path/to/public_key.pem --signature path/to/signature.sig
 
 
-![image](https://github.com/user-attachments/assets/5373990d-51cd-42ad-82b3-0c6490ea1578)
+[image](https://github.com/user-attachments/assets/ca363df1-4c1e-454e-978a-e419eba53dce)
+
