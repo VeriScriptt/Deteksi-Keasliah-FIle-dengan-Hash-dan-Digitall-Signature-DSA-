@@ -63,6 +63,9 @@ Untuk menjalankan program di **mode pengirim**, gunakan perintah berikut:
 ```bash
 python app.py --mode sender --file path/to/your/file.txt --private-key path/to/private_key.pem --signature path/to/signature.sig
 
+contoh:
+python app.py --mode sender --file file/test.txt --private-key keys/private_key.pem --signature signature/signature.sig 
+
 --mode sender: Menentukan mode untuk pengirim yang menghasilkan tanda tangan.
 --file path/to/your/file.txt: Menunjukkan file yang akan diberikan tanda tangan.
 --private-key path/to/private_key.pem: Menunjukkan path ke private key yang digunakan untuk menandatangani.
