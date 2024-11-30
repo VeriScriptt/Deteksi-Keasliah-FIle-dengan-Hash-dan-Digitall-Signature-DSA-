@@ -1,18 +1,18 @@
 import hashlib
 import argparse
 import os
-from cryptography.hazmat.primitives import hashes # type: ignore
-from cryptography.hazmat.primitives.asymmetric import padding # type: ignore
-from cryptography.hazmat.primitives.serialization import load_pem_private_key, load_pem_public_key # type: ignore
-from cryptography.hazmat.backends import default_backend # type: ignore
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives.serialization import load_pem_private_key, load_pem_public_key
+from cryptography.hazmat.backends import default_backend
 
 # Fungsi untuk membuat hash dari file
-def generate_file_hash(file_path):
+def generate_hash(file_path):
     sha256_hash = hashlib.sha256()
     try:
-        with open(file_path, "rb") as file:
-            while chunk := file.read(4096):  # Membaca file dalam chunk
-                sha256_hash.update(chunk)  # Update hash dengan setiap chunk
+        with open(file_path, "rb") as f:
+            while chunk := f.read(4096):
+                sha256_hash.update(chunk)
         return sha256_hash.hexdigest()
     except FileNotFoundError:
         print(f"Error: File '{file_path}' not found.")
@@ -20,7 +20,7 @@ def generate_file_hash(file_path):
 
 # Fungsi untuk membuat digital signature
 def create_signature(file_path, private_key_path):
-    file_hash = generate_file_hash(file_path)
+    file_hash = generate_hash(file_path)
     if file_hash is None:
         return None
 
@@ -44,7 +44,7 @@ def create_signature(file_path, private_key_path):
 
 # Fungsi untuk verifikasi digital signature
 def verify_signature(file_path, signature, public_key_path):
-    file_hash = generate_file_hash(file_path)
+    file_hash = generate_hash(file_path)
     if file_hash is None:
         return None
 
@@ -72,41 +72,53 @@ def verify_signature(file_path, signature, public_key_path):
 
 # Fungsi utama
 def main():
-    # Menggunakan argparse untuk mengambil argumen dari baris perintah
     parser = argparse.ArgumentParser(description="File Authenticity Detection using Hash and Digital Signature")
     parser.add_argument("--mode", choices=["sender", "receiver"], required=True, help="Mode: sender or receiver")
     parser.add_argument("--file", required=True, help="Path to the file to process")
     parser.add_argument("--private-key", help="Path to the private key (required for sender)")
     parser.add_argument("--public-key", help="Path to the public key (required for receiver)")
-    parser.add_argument("--signature", help="Path to save/load the signature")
 
     args = parser.parse_args()
 
-    # Mengecek mode dan menjalankan sesuai mode
     if args.mode == "sender":
         # Mode pengirim: Generate signature
-        if not args.private_key or not args.signature:
-            print("Error: Private key and signature file path are required for sender mode.")
+        if not args.private_key:
+            print("Error: Private key path is required for sender mode.")
             return
 
         signature = create_signature(args.file, args.private_key)
         if signature is not None:
-            with open(args.signature, "wb") as sig_file:
+            # Membuat folder signature jika belum ada
+            signature_folder = "signature"
+            os.makedirs(signature_folder, exist_ok=True)
+
+            # Nama file signature
+            signature_file = os.path.join(signature_folder, f"{os.path.basename(args.file)}.sig")
+
+            # Menyimpan signature ke folder signature
+            with open(signature_file, "wb") as sig_file:
                 sig_file.write(signature)
-            print(f"Signature generated and saved to {args.signature}")
-    
+
+            print(f"Signature generated and saved to {signature_file}")
+
     elif args.mode == "receiver":
         # Mode penerima: Verify signature
-        if not args.public_key or not args.signature:
-            print("Error: Public key and signature file path are required for receiver mode.")
+        if not args.public_key:
+            print("Error: Public key path is required for receiver mode.")
             return
-        
-        try:
-            with open(args.signature, "rb") as sig_file:
-                signature = sig_file.read()
-        except FileNotFoundError:
-            print(f"Error: Signature file '{args.signature}' not found.")
+
+        # Lokasi file signature di folder signature
+        signature_folder = "signature"
+        signature_file = os.path.join(signature_folder, f"{os.path.basename(args.file)}.sig")
+
+        # Memeriksa apakah file signature ada
+        if not os.path.exists(signature_file):
+            print(f"Error: Signature file '{signature_file}' not found.")
             return
+
+        # Membaca signature dari folder signature
+        with open(signature_file, "rb") as sig_file:
+            signature = sig_file.read()
 
         is_valid = verify_signature(args.file, signature, args.public_key)
         if is_valid is None:
